@@ -62,18 +62,23 @@ def ticket_creation
   # p list_of_tickets
 end
 
-list_of_tickets = []
+@list_of_tickets = []
 ticket_count = 0
+# helpdesk_start
 
 
+def main
 loop do
-  puts "What would you like to do? (Options: create, view)"
+  puts "What would you like to do? (Options: create, view, exit)"
   input = gets.chomp
   if input == "create"
     new_ticket = ticket_creation()
-    list_of_tickets.push new_ticket
-    p list_of_tickets
+    @list_of_tickets.push new_ticket
+    p @list_of_tickets
   else
     puts "Nice one."
   end
 end
+end
+
+main
