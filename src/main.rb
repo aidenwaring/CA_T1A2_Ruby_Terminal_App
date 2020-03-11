@@ -13,6 +13,31 @@ end
 # This is the structure for the ticket. Will now need to ask for each of these from user input
 # ticketcreate = Ticket_Admin.new('Aiden Waring', 'Help Me', 'My computer is broken.', 'Open', 'High')
 
+def helpdesk_start
+  puts "Welcome to the Aidos IT helpdesk.\nWhat would you like to do? (options: [a]dmin, [g]uest)"
+  login_selection = gets.chomp.downcase
+  case login_selection
+  when 'a'
+    admin_login_method
+  when 'g'
+    puts "Guest login successful."
+  end
+end
+
+def admin_login_method
+  password = "aiden123"
+	puts "Welcome to the helpdesk app. \nWhat is your password?"
+	passwordfailcount = 0
+	inputpassword = gets.chomp
+	
+		if inputpassword != password
+			puts "Incorrect password,"
+      return
+    else
+      ticket_creation
+		end
+end
+
 def ticket_creation
   puts "Please enter the following to create a new support ticket."
   puts "From?"
@@ -30,4 +55,4 @@ def ticket_creation
   p subject
 end
 
-ticket_creation
+helpdesk_start
