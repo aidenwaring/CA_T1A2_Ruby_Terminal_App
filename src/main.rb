@@ -1,4 +1,9 @@
-class Ticket_Admin
+require "tty-prompt"
+require "colorize"
+
+puts "This is a blue string".colorize(:blue)
+
+class Ticket
   attr_reader :from, :subject, :description
   attr_writer
   def initialize(from, subject, description, status, priority)
@@ -8,13 +13,12 @@ class Ticket_Admin
     @status = status
     @priority = priority
   end
-  def print_ticket_contents
-    puts "From: ",@from, "Subject: ",@subject, "Description: ",@description, "Status: ",@status, "Priority: ",@priority
-  end
-end
 
-# This is the structure for the ticket. Will now need to ask for each of these from user input
-# ticketcreate = Ticket_Admin.new('Aiden Waring', 'Help Me', 'My computer is broken.', 'Open', 'High')
+   def print_ticket_contents
+     puts "From: ",@from, "Subject: ",@subject, "Description: ",@description, "Status: ",@status, "Priority: ",@priority
+   end
+
+end
 
 def helpdesk_start
   puts "Welcome to the Aidos IT helpdesk.\nWhat would you like to do? (options: [a]dmin, [g]uest)"
@@ -28,15 +32,20 @@ def helpdesk_start
 end
 
 def admin_login_method
+  prompt = TTY::Prompt.new
+
   password = "aiden123"
-	puts "Welcome to the helpdesk app. \nWhat is your password?"
-	passwordfailcount = 0
-	inputpassword = gets.chomp
-  if inputpassword != password
+  passwordfailcount = 0
+  #puts "Welcome to the helpdesk app. \nWhat is your password?"
+  #prompt.mask("Welcome to the helpdesk app. \n What is your password?")
+  puts "Welcome to the helpdesk app."
+  #prompt.mask("What is your password?")
+  #inputpassword = gets.chomp
+  if prompt.mask("Please enter your password:") != password
     puts "Incorrect password."
   return
   else
-    ticket_creation
+    main
   end
 end
 
@@ -52,26 +61,24 @@ def ticket_creation
   status = gets.chomp
   puts "Priority?"
   priority = gets.chomp
-
-  return Ticket_Admin.new(from, subject, description, status, priority)
-  # new_ticket = Ticket_Admin.new(from, subject, description, status, priority)
-  # list_of_tickets << new_ticket
-  # p list_of_tickets
+  return Ticket.new(from, subject, description, status, priority)
 end
 
 def main
-list_of_tickets = []
-  loop do
-    puts "What would you like to do? (Options: create, view, exit)"
-    input = gets.chomp
-    if input == "create"
-      new_ticket = ticket_creation()
-      list_of_tickets.push new_ticket
-      p list_of_tickets
-    else
-      p "Nice."
+  list_of_tickets = []
+    loop do
+      puts "What would you like to do? (Options: Create, View, Exit)"
+      
+      
+      
+      input = gets.chomp
+      if input == "create"
+        new_ticket = ticket_creation()
+        list_of_tickets.push new_ticket
+      elsif input == "view"
+        p list_of_tickets
+      end
     end
-  end
 end
 
-main
+helpdesk_start
