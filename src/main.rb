@@ -1,7 +1,6 @@
 require "tty-prompt"
 require "colorize"
-
-puts "This is a blue string".colorize(:blue)
+require "artii"
 
 class Ticket
   attr_reader :from, :subject, :description
@@ -21,7 +20,9 @@ class Ticket
 end
 
 def helpdesk_start
-  puts "Welcome to the Aidos IT helpdesk.\nWhat would you like to do? (options: [a]dmin, [g]uest)"
+  a = Artii::Base.new 'AIDOS IT HELPDESK'
+  puts a.asciify('Aidos IT Helpdesk').colorize(:blue)
+  puts "What would you like to do? (options: [a]dmin, [g]uest)"
   login_selection = gets.chomp.downcase
   case login_selection
   when 'a'
@@ -50,6 +51,7 @@ def admin_login_method
 end
 
 def ticket_creation
+  system("clear")
   puts "Please enter the following to create a new support ticket."
   puts "From?"
   from = gets.chomp
@@ -65,18 +67,23 @@ def ticket_creation
 end
 
 def main
+  prompt = TTY::Prompt.new
   list_of_tickets = []
     loop do
       puts "What would you like to do? (Options: Create, View, Exit)"
-      
-      
-      
-      input = gets.chomp
-      if input == "create"
+      selection = prompt.select("Choose an option:") do |menu|
+        menu.choice 'Create a ticket'
+        menu.choice 'Ticket dashboard'
+        menu.choice 'Exit'
+      end
+      if selection == 'Create a ticket'
         new_ticket = ticket_creation()
         list_of_tickets.push new_ticket
-      elsif input == "view"
         p list_of_tickets
+      elsif selection == 'Ticket dashboard'        
+          puts "Here's the dashboard!"
+      else
+        return
       end
     end
 end
