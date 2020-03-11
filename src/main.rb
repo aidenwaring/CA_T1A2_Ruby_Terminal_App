@@ -1,8 +1,7 @@
 class Ticket_Admin
   attr_reader :from, :subject, :description
   attr_writer
-  def initialize(number,from, subject, description, status, priority)
-    @number = number
+  def initialize(from, subject, description, status, priority)
     @from = from
     @subject = subject
     @description = description
@@ -43,8 +42,6 @@ end
 
 def ticket_creation
   puts "Please enter the following to create a new support ticket."
-  ticket_count =+ 1
-  number = ticket_count
   puts "From?"
   from = gets.chomp
   puts "Subject?"
@@ -56,29 +53,25 @@ def ticket_creation
   puts "Priority?"
   priority = gets.chomp
 
-  return Ticket_Admin.new(number, from, subject, description, status, priority)
-  # new_ticket = Ticket_Admin.new(number, from, subject, description, status, priority)
+  return Ticket_Admin.new(from, subject, description, status, priority)
+  # new_ticket = Ticket_Admin.new(from, subject, description, status, priority)
   # list_of_tickets << new_ticket
   # p list_of_tickets
 end
 
-@list_of_tickets = []
-ticket_count = 0
-# helpdesk_start
-
-
 def main
-loop do
-  puts "What would you like to do? (Options: create, view, exit)"
-  input = gets.chomp
-  if input == "create"
-    new_ticket = ticket_creation()
-    @list_of_tickets.push new_ticket
-    p @list_of_tickets
-  else
-    puts "Nice one."
+list_of_tickets = []
+  loop do
+    puts "What would you like to do? (Options: create, view, exit)"
+    input = gets.chomp
+    if input == "create"
+      new_ticket = ticket_creation()
+      list_of_tickets.push new_ticket
+      p list_of_tickets
+    else
+      p "Nice."
+    end
   end
-end
 end
 
 main
