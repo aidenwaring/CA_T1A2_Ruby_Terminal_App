@@ -12,29 +12,26 @@ class Ticket
     @status = status
     @priority = priority
   end
-
-   def print_ticket_contents
-     puts "From: ",@from, "Subject: ",@subject, "Description: ",@description, "Status: ",@status, "Priority: ",@priority
-   end
-
 end
 
 def helpdesk_start
+  prompt = TTY::Prompt.new
   a = Artii::Base.new 'AIDOS IT HELPDESK'
   puts a.asciify('Aidos IT Helpdesk').colorize(:blue)
-  puts "What would you like to do? (options: [a]dmin, [g]uest)"
-  login_selection = gets.chomp.downcase
-  case login_selection
-  when 'a'
+  puts "Welcome to the AIDOS IT Helpdesk.:"
+  mode = prompt.select("Select a login option:") do |menu|
+    menu.choice 'Admin'
+    menu.choice 'Guest'
+  end
+  if mode == 'Admin'
     admin_login_method
-  when 'g'
-    puts "Guest login successful."
+  else
+    puts "Guest Mode!"
   end
 end
 
 def admin_login_method
   prompt = TTY::Prompt.new
-
   password = "aiden123"
   passwordfailcount = 0
   #puts "Welcome to the helpdesk app. \nWhat is your password?"
@@ -51,6 +48,7 @@ def admin_login_method
 end
 
 def ticket_creation
+  prompt = TTY::Prompt.new
   system("clear")
   puts "Please enter the following to create a new support ticket."
   puts "From?"
@@ -59,18 +57,31 @@ def ticket_creation
   subject = gets.chomp
   puts "Description?"
   description = gets.chomp
-  puts "Status?"
-  status = gets.chomp
-  puts "Priority?"
-  priority = gets.chomp
+  #status = gets.chomp
+  status = prompt.select("Choose a Status:") do |menu|
+    menu.choice 'Open'
+    menu.choice 'Pending'
+    menu.choice 'Waiting on 3rd Party'
+    menu.choice 'Resolved'
+  end
+  priority = prompt.select("Choose a Priority:") do |menu|
+    menu.choice 'Low'
+    menu.choice 'Medium'
+    menu.choice 'High'
+    menu.choice 'Urgent'
+  end
   return Ticket.new(from, subject, description, status, priority)
+end
+
+def ticket_dashboard
+  puts list_of_tickets
 end
 
 def main
   prompt = TTY::Prompt.new
   list_of_tickets = []
     loop do
-      puts "What would you like to do? (Options: Create, View, Exit)"
+      puts "Welcome to the main menu."
       selection = prompt.select("Choose an option:") do |menu|
         menu.choice 'Create a ticket'
         menu.choice 'Ticket dashboard'
@@ -80,8 +91,8 @@ def main
         new_ticket = ticket_creation()
         list_of_tickets.push new_ticket
         p list_of_tickets
-      elsif selection == 'Ticket dashboard'        
-          puts "Here's the dashboard!"
+      elsif selection == 'Ticket dashboard'   
+        ticket_dashboard
       else
         return
       end
