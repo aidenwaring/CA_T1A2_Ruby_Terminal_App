@@ -1,7 +1,6 @@
 class Ticket_Admin
   attr_reader :from, :subject, :description
   attr_writer
-
   def initialize(number,from, subject, description, status, priority)
     @number = number
     @from = from
@@ -10,11 +9,9 @@ class Ticket_Admin
     @status = status
     @priority = priority
   end
-
   def print_ticket_contents
     puts "From: ",@from, "Subject: ",@subject, "Description: ",@description, "Status: ",@status, "Priority: ",@priority
   end
-
 end
 
 # This is the structure for the ticket. Will now need to ask for each of these from user input
@@ -36,17 +33,14 @@ def admin_login_method
 	puts "Welcome to the helpdesk app. \nWhat is your password?"
 	passwordfailcount = 0
 	inputpassword = gets.chomp
-	
-		if inputpassword != password
-			puts "Incorrect password."
-      return
-    else
-      ticket_creation
-		end
+  if inputpassword != password
+    puts "Incorrect password."
+  return
+  else
+    ticket_creation
+  end
 end
 
-list_of_tickets = []
-ticket_count = 0
 def ticket_creation
   puts "Please enter the following to create a new support ticket."
   ticket_count =+ 1
@@ -68,6 +62,18 @@ def ticket_creation
   # p list_of_tickets
 end
 
-new_ticket = ticket_creation()
-list_of_tickets.push new_ticket
-p list_of_tickets
+list_of_tickets = []
+ticket_count = 0
+
+
+loop do
+  puts "What would you like to do? (Options: create, view)"
+  input = gets.chomp
+  if input == "create"
+    new_ticket = ticket_creation()
+    list_of_tickets.push new_ticket
+    p list_of_tickets
+  else
+    puts "Nice one."
+  end
+end
