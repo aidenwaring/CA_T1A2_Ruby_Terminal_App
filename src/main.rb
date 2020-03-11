@@ -2,7 +2,8 @@ class Ticket_Admin
   attr_reader :from, :subject, :description
   attr_writer
 
-  def initialize(from, subject, description, status, priority)
+  def initialize(number=0,from, subject, description, status, priority)
+    @number = number
     @from = from
     @subject = subject
     @description = description
@@ -44,6 +45,8 @@ def admin_login_method
 		end
 end
 
+list_of_tickets = {}
+ticket_count = 0
 def ticket_creation
   puts "Please enter the following to create a new support ticket."
   puts "From?"
@@ -56,9 +59,10 @@ def ticket_creation
   status = gets.chomp
   puts "Priority?"
   priority = gets.chomp
-
-  subject = Ticket_Admin.new(from, subject, description, status, priority)
-  subject.print_ticket_contents
+  ticket_count =+ 1
+  new_ticket = Ticket_Admin.new(from, subject, description, status, priority)
+  list_of_tickets = {new_ticket => ticket_count}
+  p list_of_tickets
 end
 
 helpdesk_start
