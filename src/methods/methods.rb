@@ -1,3 +1,7 @@
+require "tty-prompt"
+require "colorize"
+require "artii"
+
 def helpdesk_start
     prompt = TTY::Prompt.new
     a = Artii::Base.new 'AIDOS IT HELPDESK'
@@ -19,12 +23,12 @@ def helpdesk_start
     password = "aiden123"
     passwordfailcount = 0
     puts "Welcome to the helpdesk app."
-    # if prompt.mask("Please enter your password:") != password
-      # puts "Incorrect password."
-    # return
-    # else
+    if prompt.mask("Please enter your password:") != password
+      puts "Incorrect password."
+    return
+    else
       main
-    # end
+    end
   end
   
   def ticket_creation
