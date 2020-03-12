@@ -69,13 +69,20 @@ def ticket_creation
 end
 
 def ticket_dashboard(tickets)
+  # For loop to perform an action on each individual ticket in the tickets array (list_of_tickets argument)
   for ticket in tickets
-    puts "Index: #{tickets.index(ticket)} Subject: #{ticket.subject}"
+    # Prints the index of each individual ticket in the tickets array | Prints the subject of each individual ticket
+    # Add +1 to the index, as to ensure that ticket number does not begin at 0
+    puts "Ticket Number: #{tickets.index(ticket)+1} Subject: #{ticket.subject} From #{ticket.from}"
   end
   puts "Which ticket do you want to edit?"
+  # Asks for user input
   ticket_selection = gets.chomp.to_i
+  # Subtract 1 from ticket_selection, as to ensure that when parsed to the overwrite below it keeps the correct index value
+  ticket_selection = ticket_selection - 1
   puts "What are we changing FROM to?"
   input = gets.chomp
+  # Overwrites the from contents of the ticket with the input of the user
   tickets[ticket_selection].from = input
 end
 
@@ -90,10 +97,13 @@ def main
         menu.choice 'Exit'
       end
       if selection == 'Create a ticket'
+        #Assigns the return value of the ticket_creation method as new_ticket
         new_ticket = ticket_creation()
+        #Adds/pushes the class instance new ticket to the array
         list_of_tickets.push new_ticket
         p list_of_tickets
       elsif selection == 'Ticket dashboard'   
+        #Calls the ticket_dashboard method and parses the ticket array list_of_tickets as an argument
         ticket_dashboard(list_of_tickets)
       else
         return
