@@ -4,10 +4,10 @@ require "artii"
 
 def helpdesk_start
 	prompt = TTY::Prompt.new
-	a = Artii::Base.new 'AIDOS IT HELPDESK'
-	puts a.asciify('Aidos IT Helpdesk').colorize(:blue)
-	puts "Welcome to the AIDOS IT Helpdesk.:"
-	mode = prompt.select("Select a login option:") do |menu|
+	a = Artii::Base.new  :font => 'slant'
+	puts a.asciify('OpenDesk').colorize(:green)
+	puts "\n---------------------------------------------\n\nWelcome to OpenDesk - the open source helpdesk app built in Ruby."
+	mode = prompt.select("\nSelect a login option:") do |menu|
 		menu.choice 'Admin', 1
 		menu.choice 'Guest', 2
 	end
@@ -21,15 +21,15 @@ end
 def admin_login_method
 	prompt = TTY::Prompt.new
 	password = "aiden123"
-	passwordfailcount = 1
+	passwordfailcount = 0
 	puts "Welcome to the helpdesk app."
-	if prompt.mask("Please enter your password:") != password
 		while passwordfailcount < 3
-			prompt.mask("Incorrect. Please try again. Attempt #{passwordfailcount} of 3.")
-			passwordfailcount += 1
+			if prompt.mask("Please enter your password:") != password
+				passwordfailcount += 1
+				puts "Incorrect. Please try again. Attempt #{passwordfailcount} of 3."
+			else
+				main
 		end
-	else
-		main
 	end
 end
   
@@ -94,18 +94,29 @@ end
 def ticket_edit(tickets)
 	prompt = TTY::Prompt.new
 	# Asks for user input
-	edit_selection = prompt.select("Choose a ticket from the list to edit:") do |menu|
+
+	#####If array is empty, return error
+	edit_selection = prompt.select("Select a ticket to edit:") do |menu|
 		for ticket in tickets
-			menu.choice (tickets.index(ticket) + 1)
+			menu.choice (tickets.index(ticket) +1)
 		end
 	end
-	ticket_selection = gets.chomp.to_i
 	# Subtract 1 from ticket_selection, as to ensure that when parsed to the overwrite below it keeps the correct index value
-	ticket_selection = ticket_selection - 1
-	puts "What are we changing FROM to?"
-	input = gets.chomp
+	
+	# You have selected ticket number (number +1). What would you like to edit?
+	# > From, Subject, etc.
+	ticket_attribute_selection = prompt.select("What would you like to edit?") do |menu|
+		menu.choice "From", 1
+		menu.choice "Subject", 2
+	end
+	
+	edit_selection = edit_selection.to_i - 1
+	puts "Enter new data:"
+
+	
 	# Overwrites the from contents of the ticket with the input of the user
-	tickets[ticket_selection].from = input
+	input = gets.chomp
+	tickets[edit_selection].from = input
 end
   
 def main
