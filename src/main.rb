@@ -2,17 +2,19 @@ require "tty-prompt"
 require "colorize"
 require "artii"
 
-class Ticket
-  attr_reader :from, :subject, :description, :status, :priority
-  attr_writer :from
-  def initialize(from, subject, description, status, priority)
-    @from = from
-    @subject = subject
-    @description = description
-    @status = status
-    @priority = priority
-  end
-end
+require_relative "./classes/ticket.rb"
+
+# class Ticket
+#   attr_reader :from, :subject, :description, :status, :priority
+#   attr_writer :from
+#   def initialize(from, subject, description, status, priority)
+#     @from = from
+#     @subject = subject
+#     @description = description
+#     @status = status
+#     @priority = priority
+#   end
+# end
 
 def helpdesk_start
   prompt = TTY::Prompt.new
@@ -102,8 +104,13 @@ def ticket_delete(tickets)
 end
 
 def ticket_edit(tickets)
+  prompt = TTY::Prompt.new
   # Asks for user input
-  puts "What ticket are we editing?"
+  edit_selection = prompt.select("Choose a ticket from the list to edit:") do |menu|
+  for ticket in tickets
+    menu.choice (tickets.index(ticket) + 1)
+  end
+end
   ticket_selection = gets.chomp.to_i
   # Subtract 1 from ticket_selection, as to ensure that when parsed to the overwrite below it keeps the correct index value
   ticket_selection = ticket_selection - 1
