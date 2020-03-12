@@ -83,17 +83,8 @@ def ticket_dashboard(tickets)
     menu.choice 'Back to menu'
   end
   if selection == 'Edit a ticket' ####Change to a seperate method
-    # Asks for user input
-    puts "What ticket are we editing?"
-    ticket_selection = gets.chomp.to_i
-    # Subtract 1 from ticket_selection, as to ensure that when parsed to the overwrite below it keeps the correct index value
-    ticket_selection = ticket_selection - 1
-    puts "What are we changing FROM to?"
-    input = gets.chomp
-    # Overwrites the from contents of the ticket with the input of the user
-    tickets[ticket_selection].from = input
+    ticket_edit(tickets)
   elsif selection == 'Delete a ticket' #####Change to a seperate method
-    
     puts "Which ticket would you like to delete?"
 
     delete_selection = prompt.select("Choose a ticket to delete:") do |menu| 
@@ -106,6 +97,18 @@ def ticket_dashboard(tickets)
     gets.chomp
   end
   return tickets
+end
+
+def ticket_edit(tickets)
+  # Asks for user input
+  puts "What ticket are we editing?"
+  ticket_selection = gets.chomp.to_i
+  # Subtract 1 from ticket_selection, as to ensure that when parsed to the overwrite below it keeps the correct index value
+  ticket_selection = ticket_selection - 1
+  puts "What are we changing FROM to?"
+  input = gets.chomp
+  # Overwrites the from contents of the ticket with the input of the user
+  tickets[ticket_selection].from = input
 end
 
 def main
