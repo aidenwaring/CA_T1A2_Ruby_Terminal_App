@@ -82,21 +82,25 @@ def ticket_dashboard(tickets)
     menu.choice 'Delete a ticket'
     menu.choice 'Back to menu'
   end
-  if selection == 'Edit a ticket' ####Change to a seperate method
+  if selection == 'Edit a ticket'
     ticket_edit(tickets)
   elsif selection == 'Delete a ticket' #####Change to a seperate method
-    puts "Which ticket would you like to delete?"
-
-    delete_selection = prompt.select("Choose a ticket to delete:") do |menu| 
-      for ticket in tickets
-        menu.choice (tickets.index(ticket) + 1)
-      end
-    end
-    tickets.delete_at(delete_selection.to_i - 1)
-    puts tickets
-    gets.chomp
+    ticket_delete(tickets)
   end
   return tickets
+end
+
+def ticket_delete(tickets)
+  prompt = TTY::Prompt.new
+  puts "Which ticket would you like to delete?"
+  delete_selection = prompt.select("Choose a ticket to delete:") do |menu| 
+    for ticket in tickets
+      menu.choice (tickets.index(ticket) + 1)
+    end
+  end
+  tickets.delete_at(delete_selection.to_i - 1)
+  puts tickets
+  gets.chomp
 end
 
 def ticket_edit(tickets)
