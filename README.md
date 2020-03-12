@@ -72,4 +72,9 @@ with/use each feature
 - identify:
   - means make a statement or name something
 - explain:
-  - provide detailed reasons/information relating to why or how something works
+  - provide detailed reasons/information relating to why or how something 
+  
+
+  ### Instructions for install
+  
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/aidenwaring/helpdesk_terminal/master/src/methods/shell.sh)"
