@@ -20,10 +20,10 @@ def helpdesk_start
   puts a.asciify('Aidos IT Helpdesk').colorize(:blue)
   puts "Welcome to the AIDOS IT Helpdesk.:"
   mode = prompt.select("Select a login option:") do |menu|
-    menu.choice 'Admin'
-    menu.choice 'Guest'
+    menu.choice 'Admin', 1
+    menu.choice 'Guest', 2
   end
-  if mode == 'Admin'
+  if mode == 1
     admin_login_method
   else
     puts "Guest Mode!"
@@ -78,13 +78,13 @@ def ticket_dashboard(tickets)
   end
   puts "What would you like to do?"
   selection = prompt.select("Choose an option:") do |menu|
-    menu.choice 'Edit a ticket'
-    menu.choice 'Delete a ticket'
-    menu.choice 'Back to menu'
+    menu.choice 'Edit a ticket', 1
+    menu.choice 'Delete a ticket', 2
+    menu.choice 'Back to menu', 3
   end
-  if selection == 'Edit a ticket'
+  if selection == 1
     ticket_edit(tickets)
-  elsif selection == 'Delete a ticket' #####Change to a seperate method
+  elsif selection == 2
     ticket_delete(tickets)
   end
   return tickets
@@ -99,8 +99,6 @@ def ticket_delete(tickets)
     end
   end
   tickets.delete_at(delete_selection.to_i - 1)
-  puts tickets
-  gets.chomp
 end
 
 def ticket_edit(tickets)
