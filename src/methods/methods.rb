@@ -108,28 +108,60 @@ def ticket_edit(tickets)
 	ticket_attribute_selection = prompt.select("What would you like to edit?") do |menu|
 		menu.choice "From", 1
 		menu.choice "Subject", 2
+		menu.choice "Description", 3
+		menu.choice "Status", 4
+		menu.choice "Priority", 5
 	end
-	
-	edit_selection = edit_selection.to_i - 1
-	puts "Enter new data:"
 
-	
+	# Subtract inflated 'ticket value' back to index for element selection
+	edit_selection = edit_selection.to_i - 1
+
 	# Overwrites the from contents of the ticket with the input of the user
-	input = gets.chomp
-	tickets[edit_selection].from = input
+	case ticket_attribute_selection
+	when 1
+		puts "Enter new data:"
+		input = gets.chomp
+		tickets[edit_selection].from = input
+	when 2
+		puts "Enter new data:"
+		input = gets.chomp
+		tickets[edit_selection].subject = input	
+	when 3
+		puts "Enter new data:"
+		input = gets.chomp
+		tickets[edit_selection].description = input	
+	when 4
+		status = prompt.select("Choose a Status:") do |menu|
+			menu.choice 'Open'
+			menu.choice 'Pending'
+			menu.choice 'Waiting on 3rd Party'
+			menu.choice 'Resolved'
+		end
+		tickets[edit_selection].status = status
+	when 5
+		priority = prompt.select("Choose a Status:") do |menu|
+			menu.choice 'Low'
+			menu.choice 'Medium'
+			menu.choice 'High'
+			menu.choice 'Urgent'
+		end
+		tickets[edit_selection].priority = priority	
+	end
 end
   
 def main
 	prompt = TTY::Prompt.new
 	list_of_tickets = []
-	loop do
+	loop do # Begins the main menu loop
 		puts "Welcome to the main menu."
 		selection = prompt.select("Choose an option:") do |menu|
+			# Menu selection for different method calls and program exit
 			menu.choice 'Create a ticket'
 			menu.choice 'Ticket dashboard'
 			menu.choice 'Exit'
 		end
-		if selection == 'Create a ticket'        #Assigns the return value of the ticket_creation method as new_ticket
+		if selection == 'Create a ticket'        
+			#Assigns the return value of the ticket_creation method as new_ticket
 			new_ticket = ticket_creation()
 			#Adds/pushes the class instance new ticket to the array
 			list_of_tickets.push new_ticket
@@ -138,7 +170,7 @@ def main
 			#Calls the ticket_dashboard method and parses the ticket array list_of_tickets as an argument
 			list_of_tickets = ticket_dashboard(list_of_tickets)
 		else
-			return
+			exit
 		end
 	end
 end
