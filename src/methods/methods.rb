@@ -34,7 +34,7 @@ end
 def admin_login_method
 	system("clear")
 	prompt = TTY::Prompt.new
-	password = "aiden123"
+	password = "offandon"
 	passwordfailcount = 0
 	# Password login loop
 		while passwordfailcount < 3
@@ -105,15 +105,21 @@ end
 def ticket_delete(tickets)
 	system("clear")
 	prompt = TTY::Prompt.new
-	puts "Which ticket would you like to delete?"
-	delete_selection = prompt.select("Choose a ticket to delete:") do |menu| 
-		for ticket in tickets
-			menu.choice (tickets.index(ticket) + 1)
-		end
-	end
+  if tickets.empty? == false
+    delete_selection = prompt.select("Choose a ticket to delete:") do |menu| 
+      for ticket in tickets
+        menu.choice (tickets.index(ticket) + 1)
+      end
+    end
+  else
+    puts "No tickets in dashboard. Press 'Enter' to return to menu."
+    gets
+    return
+  end
 	tickets.delete_at(delete_selection.to_i - 1)
 end
   
+
 # Edit logic for tickets
 def ticket_edit(tickets)
 	system("clear")
@@ -121,14 +127,17 @@ def ticket_edit(tickets)
 	# Asks for user input
 
 	#####If array is empty, return error
-	
-	edit_selection = prompt.select("Select a ticket to edit:") do |menu|
-		for ticket in tickets
-			menu.choice (tickets.index(ticket) +1)
-		end
-	end
-	# Subtract 1 from ticket_selection, as to ensure that when parsed to the overwrite below it keeps the correct index value
-	
+  if tickets.empty? == false
+    edit_selection = prompt.select("Select a ticket to edit:") do |menu|
+      for ticket in tickets
+        menu.choice (tickets.index(ticket) +1)
+      end
+    end
+  else
+    puts "No tickets in dashboard. Press 'Enter' to return to menu."
+    gets
+    return
+  end	
 	# You have selected ticket number (number +1). What would you like to edit?
 	# > From, Subject, etc.
 	ticket_attribute_selection = prompt.select("What would you like to edit?") do |menu|
