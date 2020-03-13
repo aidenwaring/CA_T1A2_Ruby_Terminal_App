@@ -3,10 +3,6 @@
 
 ---
 
-*This* is an **important** sentence!
-
-***Another*** one.
-
 ## R3 - Referenced Materials
 
 Industry standard ticket format and procedure can be read here:
@@ -19,16 +15,43 @@ My GitHub repository for the project can be found at the link below:
 
 ## R5 - Software Development Plan
 
-Design a Software Development Plan for a terminal application. The following requirements provide details of what needs to be included in this plan, 	 
-R5 	Develop a statement of purpose and scope for your application. It must include:
-- describe at a high level what the application will do
-- identify the problem it will solve and explain why you are developing it
-- identify the target audience
-- explain how a member of the target audience will use it
+### Purpose
 
-	[300 - 500 words]
+The vision of this terminal application was to reproduce the behaviour and methodology found in helpdesk software used in service delivery work environments. 
+
+At a high level, the application intends on functioning as a I.T support ticket helpdesk system, based off my own previous experience in I.T support. 
+
+My prior experience with service desk management platforms has been that extra functionality such as multiple users and customization are all functions that are often restricted to users who pay an extra fee, oftentimes on top of the reoccuring fee for the base product. I identified this restriction as an interesting problem to solve. Developing my own service desk program has allowed me to overcome the restrictions found in other products that are not flexible and who's requirements don't grow with the customer. I have chosen to develop an open source alternative to ticketing software in an effort to resolve these issues. 
+
+Presenting OpenDesk - an open source Ruby terminal application for helpdesk service delivery management.
+
+The target audience for the program are service desk support technicians who need to create and track support tickets, and have them organised in a clean and responsive manner via the convenience of a command line interface.
+
+### Scope
+
+The initial scope of the terminal helpdesk application was for the application to provide the following core features:
+- Create Tickets
+- Edit Tickets
+- Delete Tickets
+
+I am confident that I was able to deliver each of these primary features, though many others that I had originally intended to complete did not make the cut.
+
+During the development of the application, it was apparent that the initial scope of the project was far exceeding the deliverables for the given time frame.
+
+As this was my first experience developing a terminal application, it was difficult for me to gauge how quickly I was able to complete certain tasks I had set. I am however pleased with what I have produced within only two weeks of Ruby learning content and three days to complete the assesssment.
 
 ## R6 - Feature Details
+
+The program features the following features:
+
+1. Administrator login
+  - The user is prompted for an administrator password (detailed in section R10) to authenticate access to the ticket helpdesk. The system fails on an incorrect entry and uses a Ruby loop to try for correct selection three times before program exit. 
+2. Ticket creation
+  - The user is able to create a new support ticket to be viewed in a dashboard. This method utilises a Ruby class, several connecting method parsing variables and results to generate an array result.
+3. Ticket editing
+- The user is able to edit existing tickets to overwrite the ticket attributes with new data. Exception handling is implemented to ensure validity of data, where the user is unable to initiate the ticket edit method if there are no existing tickets.
+4. Ticket deletion
+- The user is able to delete existing tickets to remove the ticket element from the array of total tickets. Exception handling is implemented to ensure validity of data, where the user is unable to initiate the ticket delete method if there are no existing tickets.
 
 Develop a list of features that will be included in the application. It must include:
 - at least THREE features
@@ -55,7 +78,9 @@ Develop a diagram which describes the control flow of your application. Your dia
 - show the workflow/logic and/or integration of the features in your application for each feature.
 - utilise a recognised format or set of conventions for a control flow diagram, such as UML.
 
-## R9 - Implementation Plan
+Provide link to the image, stored in the docs folder, hyperlinked
+
+## R9 - Implementation Plan (Trello)
 
 Develop an implementation plan which:
 - outlines how each feature will be implemented and a checklist of tasks for each feature
@@ -78,8 +103,6 @@ You must include:
 ## R11, R12 - Terminal Application and Code Overview in Slide Deck
 
 Slide deck attached here.
-
-
 
 1. gg
 1. gg
@@ -123,7 +146,9 @@ nnvhj
 ​
 ##### 71% final mark for foundation programming
 45% final mark for programming 1
-​
+​*This* is an **important** sentence!
+
+***Another*** one.
 ---
 ​
 - design, implement and test a terminal application and throughout the process demonstrate that you are able to use a range of developer tools
