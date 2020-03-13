@@ -2,6 +2,7 @@
 require "tty-prompt"
 require "colorize"
 require "artii"
+require "csv"
 
 # Login method selection between administrator and guest (guest logic pending)
 def helpdesk_start
@@ -82,8 +83,10 @@ def ticket_dashboard(tickets)
 	for ticket in tickets
 		# Prints the index of each individual ticket in the tickets array | Prints the subject of each individual ticket
 		# Add +1 to the index, as to ensure that ticket number does not begin at 0
-		puts "All Submitted Support Tickets:\n\nTicket Number: #{tickets.index(ticket)+1} From: #{ticket.from} Subject: #{ticket.subject} Description: #{ticket.description} Status: #{ticket.status} Priority: #{ticket.priority}"
-	end
+    ticket_export = "All Submitted Support Tickets:\n\nTicket Number: #{tickets.index(ticket)+1} From: #{ticket.from} Subject: #{ticket.subject} Description: #{ticket.description} Status: #{ticket.status} Priority: #{ticket.priority}"
+    convert_to_txt(ticket_export)
+  end
+
 	puts "\nWhat would you like to do?"
 	selection = prompt.select("\nChoose an option:") do |menu|
 		menu.choice 'Edit a ticket', 1
@@ -172,6 +175,13 @@ def ticket_edit(tickets)
 	end
 end
   
+def convert_to_txt(variable)
+  # To a file
+  File.open("./file.txt", "a") do |file|
+    file << variable
+  end
+end
+
 # Main menu
 def main
 	system("clear")
