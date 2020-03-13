@@ -1,30 +1,44 @@
+# Gems used
 require "tty-prompt"
 require "colorize"
 require "artii"
 
+# Login method selection between administrator and guest (guest logic pending)
 def helpdesk_start
-	prompt = TTY::Prompt.new
-	a = Artii::Base.new  :font => 'slant'
-	puts a.asciify('OpenDesk').colorize(:green)
-	puts "\n---------------------------------------------\n\nWelcome to OpenDesk - the open source helpdesk app built in Ruby."
-	mode = prompt.select("\nSelect a login option:") do |menu|
-		menu.choice 'Admin', 1
-		menu.choice 'Guest', 2
-	end
-	if mode == 1
-		admin_login_method
-	else
-		puts "Guest Mode!"
-	end
+	# Commented out for initial submission due to guest functionality not fully developed.
+
+	# Clears terminal screen
+	# system("clear")
+	# # Declare new instance of tty-prompt gem class
+	# prompt = TTY::Prompt.new
+	# # Declare variable of artii gem class
+	# a = Artii::Base.new  :font => 'slant'
+	# # Print to screen program title screen with artii and colorize gem customization
+	# puts a.asciify('OpenDesk').colorize(:green)
+	# puts "\n---------------------------------------------\n\nWelcome to OpenDesk - the open source helpdesk app built using Ruby."
+	# # Ask user for chosen input using tty-prompt menu selection
+	# mode = prompt.select("\nSelect a login option:") do |menu|
+	# 	menu.choice 'Admin', 1
+	# 	menu.choice 'Guest', 2
+	# end
+	# Call a chosen method dependant on returned menu option
+	# if mode == 1
+		# admin_login_method
+	# else
+	# 	puts "Guest Mode!"
+	# end
 end
-  
+
+# Authentication for administrator logon
 def admin_login_method
+	system("clear")
 	prompt = TTY::Prompt.new
 	password = "aiden123"
 	passwordfailcount = 0
-	puts "Welcome to the helpdesk app."
+	# Password login loop
 		while passwordfailcount < 3
-			if prompt.mask("Please enter your password:") != password
+			puts ""
+			if prompt.mask("Welcome to the application. Please enter your password:") != password
 				passwordfailcount += 1
 				puts "Incorrect. Please try again. Attempt #{passwordfailcount} of 3."
 			else
@@ -32,16 +46,18 @@ def admin_login_method
 		end
 	end
 end
-  
+ 
+# User input used to return ticket attribute information
 def ticket_creation
-	prompt = TTY::Prompt.new
 	system("clear")
+	prompt = TTY::Prompt.new
 	puts "Please enter the following to create a new support ticket."
-	puts "From?"
+	puts ""
+	puts "From: (E.g 'John Doe', 'johndoe@email.com, 'John Doe Enterprises')"
 	from = gets.chomp
-	puts "Subject?"
+	puts "Subject: (E.g 'PC Not Working at Reception')"
 	subject = gets.chomp
-	puts "Description?"
+	puts "Description: (E.g 'Unable to turn computer on. Last working on Monday.')"
 	description = gets.chomp
 	status = prompt.select("Choose a Status:") do |menu|
 		menu.choice 'Open'
@@ -57,17 +73,19 @@ def ticket_creation
 	end
 	return Ticket.new(from, subject, description, status, priority)
 end
-  
+
+# Dashboard for viewing all tickets submitted
 def ticket_dashboard(tickets)
+	system("clear")
 	prompt = TTY::Prompt.new
 	# For loop to perform an action on each individual ticket in the tickets array (list_of_tickets argument)
 	for ticket in tickets
 		# Prints the index of each individual ticket in the tickets array | Prints the subject of each individual ticket
 		# Add +1 to the index, as to ensure that ticket number does not begin at 0
-		puts "Ticket Number: #{tickets.index(ticket)+1} From: #{ticket.from} Subject: #{ticket.subject} Description: #{ticket.description} Status: #{ticket.status} Priority: #{ticket.priority}"
+		puts "All Submitted Support Tickets:\n\nTicket Number: #{tickets.index(ticket)+1} From: #{ticket.from} Subject: #{ticket.subject} Description: #{ticket.description} Status: #{ticket.status} Priority: #{ticket.priority}"
 	end
-	puts "What would you like to do?"
-	selection = prompt.select("Choose an option:") do |menu|
+	puts "\nWhat would you like to do?"
+	selection = prompt.select("\nChoose an option:") do |menu|
 		menu.choice 'Edit a ticket', 1
 		menu.choice 'Delete a ticket', 2
 		menu.choice 'Back to menu', 3
@@ -79,8 +97,10 @@ def ticket_dashboard(tickets)
 	end
 	return tickets
 end
-  
+ 
+# Removal logic for tickets
 def ticket_delete(tickets)
+	system("clear")
 	prompt = TTY::Prompt.new
 	puts "Which ticket would you like to delete?"
 	delete_selection = prompt.select("Choose a ticket to delete:") do |menu| 
@@ -91,11 +111,14 @@ def ticket_delete(tickets)
 	tickets.delete_at(delete_selection.to_i - 1)
 end
   
+# Edit logic for tickets
 def ticket_edit(tickets)
+	system("clear")
 	prompt = TTY::Prompt.new
 	# Asks for user input
 
 	#####If array is empty, return error
+	
 	edit_selection = prompt.select("Select a ticket to edit:") do |menu|
 		for ticket in tickets
 			menu.choice (tickets.index(ticket) +1)
@@ -149,12 +172,23 @@ def ticket_edit(tickets)
 	end
 end
   
+# Main menu
 def main
+	system("clear")
 	prompt = TTY::Prompt.new
 	list_of_tickets = []
+
+	
 	loop do # Begins the main menu loop
-		puts "Welcome to the main menu."
-		selection = prompt.select("Choose an option:") do |menu|
+		system("clear")
+		a = Artii::Base.new  :font => 'slant'
+		# Print to screen program title screen with artii and colorize gem customization
+		puts a.asciify('OpenDesk').colorize(:green)
+		puts "\n---------------------------------------------\n\nWelcome to OpenDesk - the open source helpdesk app built using Ruby."
+
+		puts ""
+		puts "OpenDesk - Main Menu"
+		selection = prompt.select("\nChoose an option:") do |menu|
 			# Menu selection for different method calls and program exit
 			menu.choice 'Create a ticket'
 			menu.choice 'Ticket dashboard'
